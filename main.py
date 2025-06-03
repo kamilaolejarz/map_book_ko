@@ -16,15 +16,15 @@ class User:
                                             text=f'{self.name} {self.surname}')
 
 
-def get_coordinates(self):
-    import requests
-    from bs4 import BeautifulSoup
-    adres_url: str = f'https://pl.wikipedia.org/wiki/{self.location}'
-    response_html = BeautifulSoup(requests.get(adres_url).text, "html.parser")
-    return [
-        float(response_html.select('.latitude')[1].text.replace(",", ".")),
-        float(response_html.select('.longitude')[1].text.replace(",", ".")),
-    ]
+    def get_coordinates(self) -> list:
+        import requests
+        from bs4 import BeautifulSoup
+        adres_url: str = f'https://pl.wikipedia.org/wiki/{self.location}'
+        response_html = BeautifulSoup(requests.get(adres_url).text, "html.parser")
+        return [
+            float(response_html.select('.latitude')[1].text.replace(',', '.')),
+            float(response_html.select('.longitude')[1].text.replace(',', '.')),
+        ]
 
 
 def add_user() -> None:
@@ -35,7 +35,7 @@ def add_user() -> None:
 
     user = User(name=name, surname=surname, location=location, posts=posts)
     users.append(user)
-    map_widget.set_marker(user.coordinates[0], user.coordinates[1], text="Brandenburger Tor")
+    map_widget.set_marker(user.coordinates[0], user.coordinates[1], text=f"{name} {surname}")
     print(users)
 
     entry_imie.delete(0, END)
